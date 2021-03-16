@@ -1,0 +1,569 @@
+\documentclass[10pt]{beamer}
+\usetheme{Singapore}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{natbib}
+
+
+
+\usepackage{amsthm}
+%\newtheorem{theorem}{Theorem}[subsection]
+%\newtheorem{claim}[theorem]{Claim}
+\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{definition}[theorem]{Definition}
+%\numberwithin{equation}{section}
+%\numberwithin{theorem}{section}
+%\newtheorem*{remark}{Remark}
+
+
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\author{Lee De Zhang}
+\title{Coupling and Poisson Approximations}
+%\setbeamercovered{transparent} 
+%\setbeamertemplate{navigation symbols}{} 
+%\logo{} 
+%\institute{} 
+%\date{} 
+%\subject{} 
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}{Introduction}
+	\begin{itemize}
+		\item Given the following:
+		\begin{itemize}
+			\item A finite index set $\Gamma = \{1, 2, ..., n\}$
+			\item A collection of 0-1 random variables $I_\alpha$, $\alpha \in \Gamma$
+		\end{itemize}
+		\item Suppose $p_\alpha:= \mathbb{P}(I_\alpha = 1)$'s are small (and not necessarily identical).
+		\begin{itemize}
+			\item What is the behaviour of random variable $W:=\sum_{\alpha \in \Gamma} I_\alpha$?
+			\item Convergence when $n \rightarrow \infty$?
+		\end{itemize}
+		\item Stein-Chen method: $W$ is approximated by $\text{Poisson}(\lambda)$
+		\begin{itemize}
+			\item $\lambda:= \sum_{\alpha \in \Gamma} p_\alpha$
+			\item How good is this approximation? Justified using probabilistic coupling
+			\item Detailed treatment in \cite{barbour1992poisson}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{Coupling}
+\begin{frame}{Coupling}
+\begin{itemize}
+	\item From Wikipedia,
+	\begin{itemize}
+		\item In probability theory, coupling is a proof technique that allows one to
+			compare two unrelated variables by ‘forcing’ them to be related in some
+			way.
+	\end{itemize}
+\end{itemize}
+\begin{definition}[\emph{Coupling}]
+	Given a measurable space $(\Omega, \mathcal{F})$, and 
+	two probability measures $\mu$ and $\nu$ on this space.
+	A coupling of $\mu$ and $\nu$ is a measure $\gamma$ on 
+	the space $(\Omega \times \Omega, \mathcal{F} \times \mathcal{F})$,
+	such that the marginals of $\gamma$ coincides with $\mu$ and $\nu$, 
+	in the sense that for all $A \in \Omega$, $\gamma(A \times S) = \mu(A)$, 
+	and $\gamma( S \times A) = \nu(A)$.
+\end{definition}
+
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item In practice, given some random variable $X$, coupling constructs
+		a random variable $Y$ on the same probability space as $X$
+		\item Very useful tool to derive upper bounds
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Example - Biased Coin Toss}
+\begin{itemize}
+	\item Given two coins $X$ and $Y$, denote $H=1, T=0$
+	\item $p = \mathbb{P}(X = 1) < \mathbb{P}(Y=1) = q$
+	\item Intuitively, \# heads of $X <$ \# heads of $Y$ a.s. 
+	\begin{itemize}
+		\item Can be proved using a coupling argument
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item Let $X_1, ... , X_n$ be the outcome of the first $n$ flips of coin $X$
+		\item Define $Y_1, ..., Y_n$ such that,
+		\begin{itemize}
+			\item If $X_i = 1$, then $Y_i = 1$
+			\item If $X_i = 0$, then $Y_i = 1$ with probability $(q-p)/(1-p)$
+			\begin{itemize}
+				\item Probability obtained by solving 
+					\[\mathbb{P}(Y_i = 1|X_i = 0) \mathbb{P}(X_i = 0) + \mathbb{P}(Y_i = 1|X_i = 1) \mathbb{P}(X_i = 1) = q\]
+				\item  Recall the definition, need to preserve marginal distribution of $Y$
+			\end{itemize}
+		\end{itemize}
+		
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item Using this choice of coupling, the sequence $Y_i$ has the same marginal distribution as $Y$
+		\item But now, $(X_i, Y_i)$ forms a coupling
+		\begin{itemize}
+			\item In the sense that $Y_i$ depends on $X_i$
+			\item More specifically, $Y_i \geq X_i$
+		\end{itemize}
+		\item Therefore, for any $k < n$,
+			\[
+				\mathbb{P}(X_1 + ... + X_n > k) \leq \mathbb{P}(Y_1 + ... + Y_n > k)
+			\]
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Example - Convergence of Positive Recurrent Markov Chain}
+\begin{itemize}
+	\item Given an irreducible, aperiodic Markov chain $X$,
+	 with a countable state space $S$, with transition kernel $\Pi$. 
+	 \item Let $\mu$ be the stationary distribution of $X$
+	 \begin{itemize}
+	 	\item That is,
+	 	\[
+	 		\mu(x) = \sum_{y \in S} \mu(y) \Pi(y, x),
+	 	\]
+	 	for any $x \in S$ 
+	 	\item Equivalently, $\langle \mu, \Pi f \rangle = \langle \mu, \Pi \rangle$ for any bounded $f$
+	 \end{itemize}
+	 \item If $X$ is positive recurrent, then for any pair $x, y \in S$, 
+	 \[
+	 	\lim_{n\rightarrow \infty} \Pi^n (x, y) = \mu(y),
+	 \]
+	 \item Standard proof using renewal theorem (but we need to first prove the renewal theorem)
+	 \item Can be proved by making a coupling on $X$
+\end{itemize}
+\end{frame}
+	
+\begin{frame}
+	\begin{itemize}
+		\item Let $X^1$ be a copy of $X$ with initial distribution $\mu$
+		\begin{itemize}
+			\item That is, we pick the starting point of $X^1$ from $S$ using $\mu$
+		\end{itemize}
+		\item Let $X^2$ be a copy of $X$ with initial distribution $\delta_x$ for some $x \in S$
+		\begin{itemize}
+			\item $\delta_x$ is the Dirac measure
+			\item Equivalently, this means we start $X^2$ at $x$ with probability 1
+		\end{itemize}
+		\item We claim (and prove) the following
+		\begin{itemize}
+			\item $X^1$ and $X^2$ meet at some time $\tau < \infty$ a.s.
+			\item After they meet, they will follow the same probability measure
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame} {$X^1$ and $X^2$ meet at $\tau < \infty$ a.s.}
+	\begin{itemize}
+		\item Let $X^i_n := $ state of $X^i$ at time $n$
+		\begin{itemize}
+			\item $\tau = \inf\{n: X^1_n = X^2_n\}$
+		\end{itemize}
+		\item Checking $\tau < \infty$ is equivalent to checking if $(X^1, X^2)$
+		forms an irreducible Markov chain on $S \times S$
+		\begin{itemize}
+			\item Irreducibility means, for any $x, y, z \in S$,
+			\[
+			\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] > 0,
+			\]
+			for sufficiently large $n < \infty$
+		\end{itemize}
+		\item Since $X^1, X^2$ are aperiodic and recurrent,
+		\[
+		\begin{split}
+			&\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] \\
+			&= \mathbb{P}[X_n^1 = z | X_0^1 = y]  \mathbb{P}[X_n^2 = z | X_0^2 = x)]\\
+			& > 0,
+		\end{split}
+		\]
+		which proves the irreducibility of $(X^1, X^2)$
+		\item Therefore $\tau < \infty$ a.s.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{After the Markov chains meet}
+\begin{itemize}
+	\item Define two new Markov chains $\tilde{X}^1, \tilde{X}^2$
+		\begin{itemize}
+			\item When $n \leq \tau$, $\tilde{X}^i_n = X^i_n$
+			\item When $n > \tau$, $\tilde{X}^i_n = X^1_n$
+			\begin{itemize}
+				\item i.e. when both meet, the second MC follows the first MC
+			\end{itemize}
+		\end{itemize}
+	\item By strong Markov property (present only depends on immediate past), 
+	\begin{itemize}
+		\item $\tilde{X}^i$ and $X^i$ have the same distribution
+	\end{itemize}
+	\item Since $\tau < \infty$ a.s., $\mathbb{P}(\tilde{X}^1_n \neq \tilde{X}^2_n) \downarrow 0$
+	\item $\mu(y) = \mathbb{P}(\tilde{X}^1_n)$ for all $n \in \mathbb{N}$
+	\item $\Pi^n(x, y) = \mathbb{P}(\tilde{X}^2_n = y)$ for all $y \in S, n \in \mathbb{N}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item We have the total variation distance between $\Pi^n(x, y)$ and $\mu(y)$,
+		\[
+		\begin{split}
+		\frac{1}{2} \sum_{y \in S} |\Pi^n(x, y) - \mu(y)| &= \frac{1}{2} \sum_{y \in S} |\mathbb{E}[1_{\{\tilde{X}^2_n = y\}} - 1_{\{\tilde{X}^1_n = y\}}]| \\
+		& \leq \mathbb{P}(\tilde{X}^1_n \neq \tilde{X}^2_n) \\
+		& = \mathbb{P} (\tau > n),
+		\end{split}
+		\]
+		which is 0 a.s. for sufficiently large $n$. 
+		\item Convergence in total variation distance $\Rightarrow$ pointwise convergence
+		\item Therefore, 
+		\[
+	 	\lim_{n\rightarrow \infty} \Pi^n (x, y) = \mu(y),
+	 \]
+	 for all $y \in S$
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\begin{itemize}
+		\item Probabilistic coupling allows sleek and efficient proving methods
+		\item The Markov chain example can be extended to other types of random walks on graphs
+		\item A prelude to bounding the error of Poisson approximations
+	\end{itemize}
+\end{frame}
+
+\section{Stein's Method}
+
+\begin{frame}{Stein's Method}
+	\begin{itemize}
+		\item Introduced by Charles Stein in his seminal paper \citep{stein1972bound}
+		\item Produces a Berry-Essen like bound for normal approximations
+		\item Its appeal is in its abstractness. Can generalize it for other distributions
+		\begin{itemize}
+			\item Chen-Stein method generalizes it to Poisson approximation
+			\item \cite{pekoz1996stein} extends it to geometric distributions
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{General Framework of Stein's Method}
+		 The metric used for bounding approximation errors is the total variation distance
+		\begin{definition}[\emph{Total Variation Distance}]
+			Let  $P$ and $Q$ be probability measures on the same probability space $(S, \mathcal{S})$.
+			The total variation distance between $P$ and $Q$ is given by,
+			\[
+			\begin{split}
+				d_{TV}(P, Q) &= \sup_{s \in \mathcal{S}} |P(s) - Q(s)|. \\
+			\end{split}
+			\]
+			If $\mathcal{S}$ is countable, then $d_{TV}$ can be rewritten as, 
+			\[
+				d_{TV}(P, Q) = \frac{1}{2} \sum_{s \in \mathcal{S}} |P(s) - Q(s)|.
+			\]
+		\end{definition}
+		The proof of the latter expression is given in \cite{levin2017markov}
+\end{frame}
+
+\begin{frame}{General Framework of Stein's Method (cont'd)}
+
+\begin{lemma}[\emph{Stein's Lemma}]
+	Define a functional operator $\mathcal{A}$, such that, 
+	\[
+		\mathcal{A}f(x) = f'(x) - xf(x).
+	\]
+	Given a random variable $W$ on probability space $(\Omega, \mathcal{F}, \mathcal{P})$,
+	 $f$ is absolutely continuous, and $f' \in L_1(\Omega, \mathcal{F}, \mathcal{P})$, 
+	 then $\mathcal{A}f(W) = 0$ if and only if $W$ follows a standard normal distribution.
+	 
+	 The operator $\mathcal{A}$ is known as the characterizing operator of the normal distribution. 
+\end{lemma}
+\end{frame}
+
+\begin{frame}
+	\begin{lemma}[\emph{`Solution' to Stein's Lemma}]
+		Let $\Phi(x)$ denote the CDF of the standard normal distribution, then the 
+		unique bounded solution of, 
+		\[
+			f'(w) - wf(w) = \mathbb{I}[w \leq x] - \Phi(x),
+		\]
+		is given by, 
+		\[
+			f(w) = e^{-w^2/2} \int_{-\infty}^w e^{t^2/2}(\Phi(x) - \mathbb{I}(t \leq x)) \, dt.
+		\]
+	\end{lemma}
+	\begin{theorem}[\emph{Error of Normal Approximation}]
+		Using $f$ defined above, for any random variable $W$,
+		\[
+			 |\mathbb{P}[W \leq x] - \Phi(x)| = |\mathbb{E}(f'(W) - Wf(W))| 
+		\]
+	\end{theorem}
+\end{frame}
+
+\begin{frame}{Final Step}
+	\begin{itemize}
+		\item Using couplings, we can find simple bounds of $\mathbb{E}(f'(W))$ and $\mathbb{E}(Wf(W))$
+		\begin{itemize}
+			\item Simple in the sense that a closed form solution is available
+		\end{itemize}
+		\item Examples of such couplings, and the proofs of the previous claims, are given in 
+		\citep{ross2011fundamentals}
+	\end{itemize}
+\end{frame}
+
+\section{Chen-Stein Method}
+
+\begin{frame}
+\begin{itemize}
+	\item An extension of Stein's method by his student, Louis Chen in his paper \cite{chen1975poisson}
+	\item Using the same techniques as the Stein method, but using Poisson distribution instead of Normall
+	\item A good introduction given in \cite{janson1994coupling} 
+	\begin{itemize}
+		\item Rest of this presentation summarizes this paper
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Poisson Approx. for Sum of Bernoulli Variables}
+	\begin{itemize}
+		\item Recall what we want to approximate
+		\begin{itemize}
+			\item $W =\sum_{\alpha \in \Gamma} I_\alpha$
+			\item $I_\alpha$ are 0-1 random variables, with $\mathbb{P}(I_\alpha = 1) = p_\alpha$
+		\end{itemize}
+		\item Claim: If the individual $p_\alpha$'s are small, $W$ is well approximated by $\text{Poisson}(\lambda)$
+		\begin{itemize}
+			\item $\lambda = \sum_{\alpha \in \Gamma} p_\alpha$
+		\end{itemize}
+		\item The Stein-Chen method
+is a way to justify such approximations
+			\begin{itemize}
+				\item Bound $d_{TV}(\mathcal{L}(W), Po(\lambda))$
+				\item Show this bound $\rightarrow 0$
+			\end{itemize}
+		\item General framework given in next slide			
+	\end{itemize}
+\end{frame}
+
+\begin{frame} {General Framework of Stein-Chen Method}
+	
+
+\begin{enumerate}
+	\item For any $\lambda > 0$, $A \subset \mathbb{Z}$, 
+	we define the Stein equation,
+	\[
+		\lambda g_{\lambda, A} (j+1) - j g_{\lambda, A} (j) 
+		= I(j \in A) - Po(\lambda)(A),
+	\]
+	for convenience, we write $g:=g_{\lambda, A}$.
+	\item Taking expectations, we have,
+	\[
+		\mathbb{E}(\lambda g  (j+1) - j g (j) ) = P(W \in A) - Po(\lambda)(A).
+	\]
+	
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+	\begin{enumerate}
+	\setcounter{enumi}{2}
+	\item By deriving,
+	\[
+		|\lambda g  (j+1) - j g (j) | \leq \min(1, 1/\lambda),
+	\]
+	we obtain,
+	\[
+		d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq \min(1, 1/\lambda) \sup_{g\in G} \mathbb{E}(\lambda g(W+1) - Wg(W)),
+	\]
+	where $G$ is the class of functions satisfying the Stein 
+	equation. 
+	\item Letting $\lambda = \sum p_i$, we derive,
+	\[
+	\begin{split}
+		 |\mathbb{P}(W \in A) - Po(\lambda)(A)| & = |\mathbb{E}(\lambda g(W+1) - Wg(W))| \\
+		 	& = \sum_i p_i \left(\mathbb{E}(g(W+1)) - \mathbb{E}(g(W)|I_i = 1) \right).
+	\end{split}
+	\]
+	\begin{itemize}
+		\item This often does not have a nice analytical solution
+		\item Use coupling in this step
+	\end{itemize}
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}{Constructing a Coupling}
+\begin{itemize}
+	\item 
+Recall that we wish to bound,
+\[
+\mathbb{E}(\lambda g(W+1) - Wg(W)) = \sum_\alpha p_\alpha \left(\mathbb{E}(g(W+1)) - \mathbb{E}(g(W)|I_\alpha = 1) \right).
+\]
+
+
+\item Suppose we can construct a random variable $W_\alpha$
+on the same probability space as $W$
+	\begin{itemize}
+		\item $\mathcal{L}(W_\alpha)$ matches that of the conditional distribution
+$\mathcal{L}(W - I_\alpha| I_\alpha = 1)$
+	\end{itemize}
+\item Then we derive the bound, 
+\[
+\begin{split}
+	&\sum_\alpha p_\alpha \left(\mathbb{E}(g(W+1)) - \mathbb{E}(g(W)|I_\alpha = 1) \right) \\
+	& =  \sum_\alpha p_\alpha \left(\mathbb{E}(g(W+1)) - \mathbb{E}(g(W_\alpha +1 )) \right) \\
+	 &\leq \sum_\alpha p_\alpha \mathbb{E}|W-W_\alpha|.
+\end{split} 
+\]
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item With the coupling coupling $(W, W_\alpha)$, 
+\[
+d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq \min\left(1, \frac{1}{\lambda} \right) \sum_\alpha p_\alpha \mathbb{E}|W-W_\alpha|.
+\] 
+		\item Therefore, to justify a Poisson approximation, we need a coupling $(W, W_\alpha)$ 
+		such that $\mathbb{E}|W-W_\alpha|$ is small.
+		\begin{itemize}
+			\item Such that $\sum_\alpha p_\alpha \mathbb{E}|W-W_\alpha| \rightarrow 0$. 
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{General Method to Obtain a Coupling}
+	\begin{itemize}
+		\item Recall that we want to construct $W_\alpha$ 
+		\begin{itemize}
+			\item $\mathcal{L}(W_\alpha) = \mathcal{L}(W - I_\alpha| I_\alpha = 1)$
+		\end{itemize}
+		\item A natural way to construct this coupling is the following
+		\begin{itemize}
+			\item Define a random variable $J_{\beta \alpha}$
+			\item $\mathcal{L}(J_{\beta \alpha}) = \mathcal{L}(I_\beta | I_\alpha = 1)$
+			\item Then, $W_\alpha := \sum_{\beta \neq \alpha} J_{\beta \alpha}$
+		\end{itemize}
+		\item Now, we have a coupling $(W, W_\alpha)$ 
+		\item Recall that we want to bound $\mathbb{E}|W - W_\alpha|$, and now, 
+		\[
+			W - W_\alpha = I_\alpha + \sum_{\beta \neq \alpha} (I_\beta - J_{\beta \alpha} ).
+		\]
+		\item If there is some special relationship between $I_\beta$ and  $J_{\beta \alpha}$,
+			then nicer bounds can be obtained
+			\begin{itemize}
+				\item For example, if $I_\beta \geq J_{\beta \alpha}$, then $(I_\beta - J_{\beta \alpha} ) \leq I_\beta$
+				\item Such approximations may simplify the upper bound
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{An Upper Bound using $(W, W_\alpha)$ }
+
+We obtain the following upper bound using the 
+coupling $(W, W_\alpha)$.
+\begin{proposition} \label{prob_jab_bound}
+	Using the above couplings, we have,
+	\[
+		d_{TV}(\mathcal{L}(W), Po(\lambda))
+		\leq \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} p_\alpha^2 +
+		\sum_{\alpha \in \Gamma} \sum_{\beta \neq \alpha} p_\alpha \mathbb{E}|I_\beta - J_{\beta \alpha}|\right).
+	\]
+\end{proposition}
+
+The following corollary if the $I_\alpha$'s are pairwise independent is immediate.
+\begin{corollary}
+	If the $I_\alpha$'s are pairwise independent, then the above reduces to
+	\[
+		d_{TV}(\mathcal{L}(W), Po(\lambda))
+		\leq \min(1, 1/\lambda) \sum_{\alpha \in \Gamma} p_\alpha^2 .
+	\]
+\end{corollary}
+\end{frame}
+
+\begin{frame}{Example - Occupancy Problem}
+\begin{itemize}
+	\item $r$ balls are thrown independently of each other into some boxes 
+	\begin{itemize}
+		\item How many boxes will be empty at the end?
+	\end{itemize}
+	\item Probability of a ball hitting box $\alpha$ is $p_\alpha$
+	\item Let $W$ be the number of empty boxes. 
+	\begin{itemize}
+		\item Define $I_\alpha = I$(box $\alpha$ is empty). 
+		\item Hence $W = \sum_\alpha I_\alpha$.
+		\item Goal is to approximate $W$
+	\end{itemize}
+		
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item Goal is to construct coupling $(W, W_\alpha)$
+		\begin{itemize}
+			\item $W_\alpha = \sum_{\beta \neq \alpha} J_{\beta \alpha}$
+		\end{itemize}
+		\item How to construct $J_{\beta \alpha}$?
+		\begin{itemize}
+			\item Recall that $\mathcal{L}(J_{\beta \alpha}) = \mathcal{L}(I_\beta | I_\alpha = 1)$  
+		\end{itemize}
+		\item Here's a way we can do this 
+		\begin{itemize}
+			\item We iterate through every box. Let the current box be $\alpha$
+			\item If box $\alpha$ is empty $(I_\alpha = 1)$, then $J_{\beta\alpha} = I_\beta$
+			\item If box $\alpha$ is occupied
+			\begin{itemize}
+				\item Take all the balls from box $\alpha$
+				\item Redistribute it to the other boxes under the conditional distribution that box $\alpha$ is empty.
+				\item i.e. redistribute to box $\beta$ with probability $\mathbb{P}(I_\beta = 1 | I_\alpha = 1)$
+				\item Let $J_{\beta \alpha} = I$(box $\beta$ is empty after this redistribution). 
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item Under this construction, $J_{\beta \alpha} \leq I_\beta$
+		\begin{itemize}
+			\item If $I_\beta = 0$ (box $\beta$ is already occupied), redistribution changes nothing
+			\item If $I_\beta = 1$, $J_{\beta \alpha} \leq 1$ since we may redistribute a ball inside box $\beta$
+		\end{itemize}
+		\item This is known as a monotone coupling
+	\end{itemize}
+\end{frame}
+
+
+\bibliography{ref}
+\bibliographystyle{abbrvnat}
+\end{document}
