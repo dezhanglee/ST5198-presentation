@@ -2,4 +2,5 @@
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@sectionintoc {2}{Coupling}{4}{0}{2}
 \beamer@sectionintoc {3}{Stein's Method}{15}{0}{3}
-\beamer@sectionintoc {4}{Chen-Stein Method}{20}{0}{4}
+\beamer@sectionintoc {4}{Stein-Chen Method}{20}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{33}{0}{5}

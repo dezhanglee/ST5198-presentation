@@ -337,12 +337,12 @@
 	\end{itemize}
 \end{frame}
 
-\section{Chen-Stein Method}
+\section{Stein-Chen Method}
 
-\begin{frame}
+\begin{frame}{Stein-Chen Method}
 \begin{itemize}
 	\item An extension of Stein's method by his student, Louis Chen in his paper \cite{chen1975poisson}
-	\item Using the same techniques as the Stein method, but using Poisson distribution instead of Normall
+	\item Using the same techniques as the Stein method, but using Poisson distribution instead of Normal
 	\item A good introduction given in \cite{janson1994coupling} 
 	\begin{itemize}
 		\item Rest of this presentation summarizes this paper
@@ -560,9 +560,70 @@ The following corollary if the $I_\alpha$'s are pairwise independent is immediat
 			\item If $I_\beta = 1$, $J_{\beta \alpha} \leq 1$ since we may redistribute a ball inside box $\beta$
 		\end{itemize}
 		\item This is known as a monotone coupling
+		\begin{itemize}
+			\item We get an elegant representation of the upper bound of $d_{TV}$!
+		\end{itemize}
+		\item  Since
+	\[
+		p_\alpha \mathbb{E}|I_\beta - J_{\beta \alpha}| 
+		= p_\alpha \mathbb{E} ( I_\beta - J_{\beta \alpha} )		
+		=  - Cov(I_\alpha, I_\beta),
+	\] 
+		
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+We get the following \[
+	\begin{split}
+		& d_{TV}(\mathcal{L}(W), Po(\lambda)) \\
+		& \leq \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} p_\alpha^2 +
+		\sum_{\alpha \in \Gamma} \sum_{\beta \neq \alpha} p_\alpha \mathbb{E}|I_\beta - J_{\beta \alpha}|\right)\\
+		& = \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} p_\alpha^2 -
+		\sum_{\alpha \in \Gamma} \sum_{\beta \neq \alpha} Cov(I_\alpha, I_\beta) \right)\\
+		& = \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} (p_\alpha^2 + Var(I_\alpha)) -
+		\sum_{\alpha \in \Gamma} \sum_{\beta \in \Gamma} Cov(I_\alpha, I_\beta)    \right)\\
+		&= \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} (p_\alpha^2 + p_\alpha - p_\alpha^2 ) -
+		Var(W) \right)\\
+		&= \min(1, 1/\lambda)
+		\left(\lambda  -
+		Var(W) \right).\\
+	\end{split}
+	\]
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+	\item If we have sufficiently many boxes, the boxes are pairwise weakly dependent
+	\item We can approximate  $Var(W) \approx \sum_\alpha p_\alpha (1-p_\alpha)$,
+	\begin{itemize}
+		\item Where $p_\alpha$ is the probability of a ball going into box $\alpha$.
+	\end{itemize}
+	\item Therefore, 
+	\[
+	d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq \lambda  -
+		Var(W)  =  \sum_\alpha p_\alpha [1-(1-p_\alpha)] = \sum_\alpha p_\alpha^2,
+	\]
+\end{itemize}
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}{Conclusion}
+\begin{itemize}
+	\item Probabilistic coupling is a powerful tool in probability theory
+	\begin{itemize}
+		\item Enables sleek and elegant proofs!
+	\end{itemize}
+	\item Coupling is an indispensable tool in the Stein-Chen method
+	\begin{itemize}
+		\item A good coupling choice can be used to justify using Poisson approximations
+	\end{itemize}
+\end{itemize}
+\end{frame}
 
 \bibliography{ref}
 \bibliographystyle{abbrvnat}

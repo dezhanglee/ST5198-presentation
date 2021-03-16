@@ -556,11 +556,65 @@ The following corollary if the $I_\alpha$'s are pairwise independent is immediat
 	\begin{itemize}
 		\item Under this construction, $J_{\beta \alpha} \leq I_\beta$
 		\begin{itemize}
-			\item If $
+			\item If $I_\beta = 0$ (box $\beta$ is already occupied), redistribution changes nothing
+			\item If $I_\beta = 1$, $J_{\beta \alpha} \leq 1$ since we may redistribute a ball inside box $\beta$
 		\end{itemize}
+		\item This is known as a monotone coupling
+		\begin{itemize}
+			\item We get an elegant representation of the upper bound of $d_{TV}$!
+		\end{itemize}
+		\item  Since
+	\[
+		p_\alpha \mathbb{E}|I_\beta - J_{\beta \alpha}| 
+		= p_\alpha \mathbb{E} ( I_\beta - J_{\beta \alpha} )		
+		=  - Cov(I_\alpha, I_\beta),
+	\] 
+		
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+We get the following \[
+	\begin{split}
+		& d_{TV}(\mathcal{L}(W), Po(\lambda)) \\
+		& \leq \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} p_\alpha^2 +
+		\sum_{\alpha \in \Gamma} \sum_{\beta \neq \alpha} p_\alpha \mathbb{E}|I_\beta - J_{\beta \alpha}|\right)\\
+		& = \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} p_\alpha^2 -
+		\sum_{\alpha \in \Gamma} \sum_{\beta \neq \alpha} Cov(I_\alpha, I_\beta) \right)\\
+		& = \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} (p_\alpha^2 + Var(I_\alpha)) -
+		\sum_{\alpha \in \Gamma} \sum_{\beta \in \Gamma} Cov(I_\alpha, I_\beta)    \right)\\
+		&= \min(1, 1/\lambda)
+		\left(\sum_{\alpha \in \Gamma} (p_\alpha^2 + p_\alpha - p_\alpha^2 ) -
+		Var(W) \right)\\
+		&= \min(1, 1/\lambda)
+		\left(\lambda  -
+		Var(W) \right).\\
+	\end{split}
+	\]
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+	\item If we have sufficiently many boxes, the boxes are pairwise weakly dependent
+	\item We can approximate  $Var(W) \approx \sum_\alpha p_\alpha (1-p_\alpha)$,
+	\begin{itemize}
+		\item Where $p_\alpha$ is the probability of a ball going into box $\alpha$.
+	\end{itemize}
+	\item Therefore, 
+	\[
+	d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq \lambda  -
+		Var(W)  =  \sum_\alpha p_\alpha [1-(1-p_\alpha)] = \sum_\alpha p_\alpha^2,
+	\]
+\end{itemize}
+\end{frame}
+
+\sub
+\begin{frame}
+
+\end{frame}
 
 \bibliography{ref}
 \bibliographystyle{abbrvnat}
