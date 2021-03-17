@@ -33,7 +33,7 @@
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{} 
 %\institute{} 
-%\date{} 
+\date{March 19, 2021} 
 %\subject{} 
 \begin{document}
 
@@ -62,7 +62,7 @@
 		\item Stein-Chen method: $W$ is approximated by $\text{Poisson}(\lambda)$
 		\begin{itemize}
 			\item $\lambda:= \sum_{\alpha \in \Gamma} p_\alpha$
-			\item How good is this approximation? Justified using probabilistic coupling
+			\item How good is this approximation? Can be justified using probabilistic coupling
 			\item Detailed treatment in \cite{barbour1992poisson}
 		\end{itemize}
 	\end{itemize}
@@ -198,16 +198,30 @@
 			\]
 			for sufficiently large $n < \infty$
 		\end{itemize}
-		\item Since $X^1, X^2$ are aperiodic and recurrent,
+		\item Since $X^1, X^2$ are aperiodic and irreducible, for all $n$, 
 		\[
 		\begin{split}
-			&\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] \\
-			&= \mathbb{P}[X_n^1 = z | X_0^1 = y]  \mathbb{P}[X_n^2 = z | X_0^2 = x]\\
+			&\mathbb{P}[(X_n^1, X_n^2) = (w, z) | (X_0^1, X_0^2) = (y, x)] \\
+			&= \mathbb{P}[X_n^1 = w | X_0^1 = y]  \mathbb{P}[X_n^2 = z | X_0^2 = x]\\
 			& > 0,
 		\end{split}
 		\]
 		which proves the irreducibility of $(X^1, X^2)$
-		\item Therefore $\tau < \infty$ a.s.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{itemize}
+		\item Since $(X^1, X^2)$ forms an irreducible Markov chain,
+		\[
+			\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] > 0
+		\]
+		for all $n$
+		\item Since $X^1, X^2$ are positive recurrent, $(X^1, X^2)$ is also positive recurrent
+		\item Positive recurrence + irreducibility $\Rightarrow \tau < \infty$ a.s.
+		\begin{itemize}
+			\item In other words, $X^1, X^2$ will a.s. meet in finite steps
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -216,6 +230,9 @@
 	\item Define two new Markov chains $\tilde{X}^1, \tilde{X}^2$
 		\begin{itemize}
 			\item When $n \leq \tau$, $\tilde{X}^i_n = X^i_n$
+			\begin{itemize}
+				\item i.e. before they meet, let both MC go their separate path
+			\end{itemize}
 			\item When $n > \tau$, $\tilde{X}^i_n = X^1_n$
 			\begin{itemize}
 				\item i.e. when both $X^1$ and $X^2$ meet, the second MC follows the first MC
@@ -227,6 +244,9 @@
 	\end{itemize}
 	\item Since $\tau < \infty$ a.s., $\mathbb{P}(\tilde{X}^1_n \neq \tilde{X}^2_n) \downarrow 0$
 	\item $\mu(y) = \mathbb{P}(\tilde{X}^1_n)$ for all $n \in \mathbb{N}$
+	\begin{itemize}
+		\item This is since the starting point of $X^1$ is from its stationary distribution $\mu$. 
+	\end{itemize}
 	\item $\Pi^n(x, y) = \mathbb{P}(\tilde{X}^2_n = y)$ for all $y \in S, n \in \mathbb{N}$
 \end{itemize}
 \end{frame}
@@ -334,7 +354,7 @@
 			\item Simple in the sense that a closed form solution is available
 		\end{itemize}
 		\item Examples of such couplings, and the proofs of the previous claims, are given in 
-		\citep{ross2011fundamentals}
+		\cite{ross2011fundamentals}
 	\end{itemize}
 \end{frame}
 
@@ -618,7 +638,7 @@ We get the following \[
 	& \leq n e^{-r/n},
 	\end{split}
 	\]
-	where we used the approximation $\left(1 - \frac{1}{n}\right)^n \leq e^{-n}$ for sufficiently large $n$.
+	where we used the approximation $\left(1 - \frac{1}{n}\right)^n \leq e^{-1}$ for sufficiently large $n$.
 \end{itemize}
 \end{frame}
 
