@@ -3,4 +3,4 @@
 \beamer@sectionintoc {2}{Coupling}{4}{0}{2}
 \beamer@sectionintoc {3}{Stein's Method}{15}{0}{3}
 \beamer@sectionintoc {4}{Stein-Chen Method}{20}{0}{4}
-\beamer@sectionintoc {5}{Conclusion}{33}{0}{5}
+\beamer@sectionintoc {5}{Conclusion}{34}{0}{5}

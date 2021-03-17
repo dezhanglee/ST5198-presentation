@@ -28,7 +28,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \author{Lee De Zhang}
-\title{Coupling and Poisson Approximations}
+\title{Coupling and Poisson Approximation}
 %\setbeamercovered{transparent} 
 %\setbeamertemplate{navigation symbols}{} 
 %\logo{} 
@@ -54,7 +54,7 @@
 			\item A finite index set $\Gamma = \{1, 2, ..., n\}$
 			\item A collection of 0-1 random variables $I_\alpha$, $\alpha \in \Gamma$
 		\end{itemize}
-		\item Suppose $p_\alpha:= \mathbb{P}(I_\alpha = 1)$'s are small (and not necessarily identical).
+		\item Suppose $p_\alpha:= \mathbb{P}(I_\alpha = 1)$'s are small (and not necessarily identical)
 		\begin{itemize}
 			\item What is the behaviour of random variable $W:=\sum_{\alpha \in \Gamma} I_\alpha$?
 			\item Convergence when $n \rightarrow \infty$?
@@ -152,7 +152,7 @@
 	 		\mu(x) = \sum_{y \in S} \mu(y) \Pi(y, x),
 	 	\]
 	 	for any $x \in S$ 
-	 	\item Equivalently, $\langle \mu, \Pi f \rangle = \langle \mu, \Pi \rangle$ for any bounded $f$
+	 	\item Equivalently, $\langle \mu, \Pi f \rangle = \langle \mu, f \rangle$ for any bounded $f$
 	 \end{itemize}
 	 \item If $X$ is positive recurrent, then for any pair $x, y \in S$, 
 	 \[
@@ -165,15 +165,16 @@
 	
 \begin{frame}
 	\begin{itemize}
-		\item Let $X^1$ be a copy of $X$ with initial distribution $\mu$
+		\item Let $X^1$ be an independent copy of $X$ with initial distribution $\mu$
 		\begin{itemize}
 			\item That is, we pick the starting point of $X^1$ from $S$ using $\mu$
 		\end{itemize}
-		\item Let $X^2$ be a copy of $X$ with initial distribution $\delta_x$ for some $x \in S$
+		\item Let $X^2$ be an independent copy of $X$ with initial distribution $\delta_x$ for some $x \in S$
 		\begin{itemize}
 			\item $\delta_x$ is the Dirac measure
 			\item Equivalently, this means we start $X^2$ at $x$ with probability 1
 		\end{itemize}
+		\item $(X^1, X^2)$ form a coupling on state space $(S \times S)$
 		\item We claim (and prove) the following
 		\begin{itemize}
 			\item $X^1$ and $X^2$ meet at some time $\tau < \infty$ a.s.
@@ -191,9 +192,9 @@
 		\item Checking $\tau < \infty$ is equivalent to checking if $(X^1, X^2)$
 		forms an irreducible Markov chain on $S \times S$
 		\begin{itemize}
-			\item Irreducibility means, for any $x, y, z \in S$,
+			\item Irreducibility means, for any $w, x, y, z \in S$,
 			\[
-			\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] > 0,
+			\mathbb{P}[(X_n^1, X_n^2) = (w, z) | (X_0^1, X_0^2) = (y, x)] > 0,
 			\]
 			for sufficiently large $n < \infty$
 		\end{itemize}
@@ -201,7 +202,7 @@
 		\[
 		\begin{split}
 			&\mathbb{P}[(X_n^1, X_n^2) = (z, z) | (X_0^1, X_0^2) = (y, x)] \\
-			&= \mathbb{P}[X_n^1 = z | X_0^1 = y]  \mathbb{P}[X_n^2 = z | X_0^2 = x)]\\
+			&= \mathbb{P}[X_n^1 = z | X_0^1 = y]  \mathbb{P}[X_n^2 = z | X_0^2 = x]\\
 			& > 0,
 		\end{split}
 		\]
@@ -217,7 +218,7 @@
 			\item When $n \leq \tau$, $\tilde{X}^i_n = X^i_n$
 			\item When $n > \tau$, $\tilde{X}^i_n = X^1_n$
 			\begin{itemize}
-				\item i.e. when both meet, the second MC follows the first MC
+				\item i.e. when both $X^1$ and $X^2$ meet, the second MC follows the first MC
 			\end{itemize}
 		\end{itemize}
 	\item By strong Markov property (present only depends on immediate past), 
@@ -265,9 +266,9 @@
 	\begin{itemize}
 		\item Introduced by Charles Stein in his seminal paper \citep{stein1972bound}
 		\item Produces a Berry-Essen like bound for normal approximations
-		\item Its appeal is in its abstractness. Can generalize it for other distributions
+		\item Appeal is in its abstractness. Can generalize it to other distributions
 		\begin{itemize}
-			\item Chen-Stein method generalizes it to Poisson approximation
+			\item Stein-Chen method generalizes it to Poisson approximation
 			\item \cite{pekoz1996stein} extends it to geometric distributions
 		\end{itemize}
 	\end{itemize}
@@ -276,16 +277,16 @@
 \begin{frame}{General Framework of Stein's Method}
 		 The metric used for bounding approximation errors is the total variation distance
 		\begin{definition}[\emph{Total Variation Distance}]
-			Let  $P$ and $Q$ be probability measures on the same probability space $(S, \mathcal{S})$.
+			Let  $P$ and $Q$ be probability measures on the same probability space $(\Omega, \mathcal{F})$.
 			The total variation distance between $P$ and $Q$ is given by,
 			\[
 			\begin{split}
-				d_{TV}(P, Q) &= \sup_{s \in \mathcal{S}} |P(s) - Q(s)|. \\
+				d_{TV}(P, Q) &= \sup_{s \in \mathcal{F}} |P(s) - Q(s)|. \\
 			\end{split}
 			\]
-			If $\mathcal{S}$ is countable, then $d_{TV}$ can be rewritten as, 
+			If ${S}$ is countable, then $d_{TV}$ can be rewritten as, 
 			\[
-				d_{TV}(P, Q) = \frac{1}{2} \sum_{s \in \mathcal{S}} |P(s) - Q(s)|.
+				d_{TV}(P, Q) = \frac{1}{2} \sum_{\omega \in {\Omega}} |P(\omega) - Q(\omega)|.
 			\]
 		\end{definition}
 		The proof of the latter expression is given in \cite{levin2017markov}
@@ -511,16 +512,20 @@ The following corollary if the $I_\alpha$'s are pairwise independent is immediat
 
 \begin{frame}{Example - Occupancy Problem}
 \begin{itemize}
-	\item $r$ balls are thrown independently of each other into some boxes 
+	\item $r$ balls are thrown independently and randomly at $n$ boxes with equal probability
 	\begin{itemize}
 		\item How many boxes will be empty at the end?
 	\end{itemize}
-	\item Probability of a ball hitting box $\alpha$ is $p_\alpha$
+	
 	\item Let $W$ be the number of empty boxes. 
 	\begin{itemize}
 		\item Define $I_\alpha = I$(box $\alpha$ is empty). 
 		\item Hence $W = \sum_\alpha I_\alpha$.
 		\item Goal is to approximate $W$
+	\end{itemize}
+	\item Let $p_\alpha$ be the probability that box $\alpha$ is still empty
+	\begin{itemize}
+		\item Equivalently, $p_\alpha := \mathbb{P}(I_\alpha = 1) = \left(1 - \frac{1}{n}\right)^r$
 	\end{itemize}
 		
 \end{itemize}
@@ -605,10 +610,32 @@ We get the following \[
 	\end{itemize}
 	\item Therefore, 
 	\[
-	d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq \lambda  -
-		Var(W)  =  \sum_\alpha p_\alpha [1-(1-p_\alpha)] = \sum_\alpha p_\alpha^2,
+	\begin{split}
+	d_{TV}(\mathcal{L}(W), Po(\lambda)) & \leq \lambda  - Var(W)  \\
+	& =  \sum_\alpha p_\alpha [1-(1-p_\alpha)] \\
+	& = \sum_\alpha p_\alpha^2 \\
+	&= n \left(1 - \frac{1}{n}\right)^r \\
+	& \leq n e^{-r/n},
+	\end{split}
 	\]
+	where we used the approximation $\left(1 - \frac{1}{n}\right)^n \leq e^{-n}$ for sufficiently large $n$.
 \end{itemize}
+\end{frame}
+
+\begin{frame}
+	\textbf{Question: Is Poisson approximation justified here?} 
+	\begin{itemize}
+		\item Since $d_{TV}(\mathcal{L}(W), Po(\lambda)) \leq n e^{-r/n}$, 
+		\begin{itemize}
+			\item A sufficient condition for $d_{TV} \rightarrow 0$ is $r >> n$
+		\end{itemize}
+		\item Consistent with what we know about the law of small numbers
+		\begin{itemize}
+			\item $p_\alpha = \left(1 - \frac{1}{n}\right)^r \leq e^{-r/n} \rightarrow 0$ for $r>>n$
+			\item Poisson approximation works well for `rare' events (i.e. small $p_\alpha$)
+		\end{itemize}
+		\item Poisson approximation justified using Stein-Chen method! 
+	\end{itemize}
 \end{frame}
 
 \section{Conclusion}
